@@ -9,6 +9,11 @@ defmodule TiendaLp.Usuarios.Usuario do
     field :saldo, :decimal, default: Decimal.new("0.00")
     field :admin, :boolean, default: false
 
+    # RELACIÓN: un usuario puede tener muchos productos vendidos
+    has_many :productos, TiendaLp.Producto,
+      foreign_key: :vendedor_correo,
+      references: :correo
+
     timestamps(type: :utc_datetime)
   end
 

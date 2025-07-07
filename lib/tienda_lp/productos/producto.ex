@@ -8,7 +8,12 @@ defmodule TiendaLp.Productos.Producto do
     field :precio, :decimal
     field :imagen, :string
 
-    timestamps(type: :utc_datetime)
+    belongs_to :vendedor, TiendaLp.Usuarios.Usuario,
+      foreign_key: :vendedor_correo,
+      references: :correo,
+      type: :string
+
+    timestamps()
   end
 
   @doc false
