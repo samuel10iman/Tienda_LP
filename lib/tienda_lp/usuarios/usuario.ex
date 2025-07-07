@@ -10,7 +10,7 @@ defmodule TiendaLp.Usuarios.Usuario do
     field :admin, :boolean, default: false
 
     # RELACIÓN: un usuario puede tener muchos productos vendidos
-    has_many :productos, TiendaLp.Producto,
+    has_many :productos, TiendaLp.Productos.Producto,
       foreign_key: :vendedor_correo,
       references: :correo
 

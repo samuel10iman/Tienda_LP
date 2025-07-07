@@ -1,0 +1,25 @@
+<h2 class="text-xl font-bold mb-4">Mi Carrito</h2>
+<table class="min-w-full">
+  <thead>
+    <tr>
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for item <- @carritos do %>
+      <tr>
+        <td><%= item.producto.nombre %></td>
+        <td><%= item.cantidad %></td>
+        <td><%= item.estado %></td>
+        <td class="py-3 px-4">
+          <a href={~p"/productos/show/#{item.producto.id}"} class="text-brand hover:underline">Ver</a>
+          <a href={~p"/productos/edit/#{item.producto.id}"} class="text-blue-600 hover:underline">Editar</a>
+          <.link href={~p"/productos/#{item.producto.id}"} method="delete" data-confirm="¿Seguro?" class="text-red-600 hover:underline">Eliminar</.link>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

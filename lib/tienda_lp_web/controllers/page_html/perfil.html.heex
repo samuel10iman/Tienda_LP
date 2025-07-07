@@ -1,0 +1,87 @@
+<!-- filepath: lib/tienda_lp_web/controllers/page_html/perfil.html.heex -->
+<div class="max-w-3xl mx-auto mt-10 bg-white rounded-lg shadow p-8">
+  <h2 class="text-3xl font-bold mb-6 text-center">Mi Perfil</h2>
+
+  <div class="mb-8">
+    <h3 class="font-semibold text-lg mb-3 border-b pb-2">Datos personales</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <p><span class="font-bold">Nombre:</span> <%= @usuario.nombre %></p>
+      <p><span class="font-bold">Apellidos:</span> <%= @usuario.apellidos %></p>
+      <p><span class="font-bold">Celular:</span> <%= @usuario.celular %></p>
+      <p><span class="font-bold">Cumpleaños:</span> <%= @usuario.cumpleanios %></p>
+      <p><span class="font-bold">Edad:</span> <%= @usuario.edad %></p>
+      <p><span class="font-bold">Correo electrónico:</span> <%= @usuario.correo %></p>
+    </div>
+  </div>
+
+  <div class="mb-8">
+    <h3 class="font-semibold text-lg mb-3 border-b pb-2">Mis pedidos</h3>
+    <ul class="list-disc pl-5">
+      <%= if Enum.empty?(@pedidos) do %>
+        <li class="text-gray-500">No tienes pedidos.</li>
+      <% else %>
+        <%= for pedido <- @pedidos do %>
+          <li>
+            <span class="font-bold">ID:</span> <%= pedido.id %> |
+            <span class="font-bold">Descripción:</span> <%= pedido.descripcion %> |
+            <span class="font-bold">Estado:</span> <%= pedido.estado %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="mb-8">
+    <h3 class="font-semibold text-lg mb-3 border-b pb-2">Mis productos</h3>
+    <ul class="list-disc pl-5">
+      <%= if Enum.empty?(@productos) do %>
+        <li class="text-gray-500">No tienes productos.</li>
+      <% else %>
+        <%= for producto <- @productos do %>
+          <li>
+            <span class="font-bold">ID:</span> <%= producto.id %> |
+            <span class="font-bold">Nombre:</span> <%= producto.nombre %> |
+            <span class="font-bold">Stock:</span> <%= producto.stock %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="mt-8">
+    <h3 class="font-semibold text-lg mb-3 border-b pb-2">Editar datos</h3>
+    <.form for={@usuario_form} action={~p"/perfil/editar"} as={:usuario} method="put">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <label class="block">
+          <span class="text-gray-700">Nombre</span>
+          <.input field={@usuario_form[:nombre]} value={@usuario.nombre} class="mt-1 block w-full rounded border-gray-300" />
+        </label>
+        <label class="block">
+          <span class="text-gray-700">Apellidos</span>
+          <.input field={@usuario_form[:apellidos]} value={@usuario.apellidos} class="mt-1 block w-full rounded border-gray-300" />
+        </label>
+        <label class="block">
+          <span class="text-gray-700">Celular</span>
+          <.input field={@usuario_form[:celular]} value={@usuario.celular} class="mt-1 block w-full rounded border-gray-300" />
+        </label>
+        <label class="block">
+          <span class="text-gray-700">Cumpleaños</span>
+          <.input type="date" field={@usuario_form[:cumpleanios]} value={@usuario.cumpleanios} class="mt-1 block w-full rounded border-gray-300" />
+        </label>
+        <label class="block">
+          <span class="text-gray-700">Edad</span>
+          <.input type="number" field={@usuario_form[:edad]} value={@usuario.edad} class="mt-1 block w-full rounded border-gray-300" />
+        </label>
+        <label class="block">
+          <span class="text-gray-700">Correo electrónico</span>
+          <.input type="email" field={@usuario_form[:correo]} value={@usuario.correo} class="mt-1 block w-full rounded border-gray-300" />
+        </label>
+      </div>
+      <div class="flex justify-end mt-4">
+        <button type="submit" class="bg-brand text-white px-6 py-2 rounded hover:bg-orange-600 transition-colors">
+          Guardar cambios
+        </button>
+      </div>
+    </.form>
+  </div>
+</div>
