@@ -43,12 +43,12 @@
     </div>
   </div>
   
+<!-- Sección: Mis pedidos -->
   <div class="mb-8">
     <h3 class="font-semibold text-lg mb-3 border-b pb-2">Mis pedidos</h3>
     
     <ul class="list-disc pl-5">
       <%= if Enum.empty?(@pedidos) do %>
-        <li class="text-gray-500">No tienes pedidos.</li>
       <% else %>
         <%= for pedido <- @pedidos do %>
           <li>
@@ -59,14 +59,24 @@
         <% end %>
       <% end %>
     </ul>
+    
+<!-- Botón centrado -->
+    <div class="flex justify-center mt-4">
+      <a
+        href="/ver_pedidos"
+        class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+      >
+        Ver pedidos
+      </a>
+    </div>
   </div>
   
+<!-- Sección: Mis productos -->
   <div class="mb-8">
     <h3 class="font-semibold text-lg mb-3 border-b pb-2">Mis productos</h3>
     
     <ul class="list-disc pl-5">
       <%= if Enum.empty?(@productos) do %>
-        <li class="text-gray-500">No tienes productos.</li>
       <% else %>
         <%= for producto <- @productos do %>
           <li>
@@ -77,6 +87,16 @@
         <% end %>
       <% end %>
     </ul>
+    
+<!-- Botón centrado -->
+    <div class="flex justify-center mt-4">
+      <a
+        href="/ver_productos_vendidos"
+        class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
+      >
+        Ver mis productos
+      </a>
+    </div>
   </div>
   
   <div class="mt-8">

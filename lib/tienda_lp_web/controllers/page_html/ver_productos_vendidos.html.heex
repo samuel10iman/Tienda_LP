@@ -1,0 +1,108 @@
+<!-- Encabezado -->
+<header class="flex items-center justify-between p-4 border-b shadow-sm">
+  <!-- Logo que lleva al home -->
+  <a href={~p"/"} class="flex items-center space-x-2">
+    <img src="/images/logo.png" alt="Logo" class="h-10" />
+  </a>
+  
+<!-- Menú -->
+  <nav class="space-x-6 text-sm md:text-base font-bold text-black">
+    <a href="#">CALZADO</a> <a href="#">MUJER</a> <a href="#">HOMBRE</a> <a href="#">NIÑOS</a>
+    <a href="#">DEPORTE</a> <span class="text-red-600">HASTA 50% OFF</span>
+  </nav>
+  
+<!-- Buscador y botones -->
+  <div class="flex items-center gap-6">
+    <form action="/" method="get" class="flex">
+      <input type="text" name="q" placeholder="Buscar..." class="rounded-l border px-2 py-1" />
+      <button type="submit" class="bg-zinc-100 px-3 rounded-r">🔍</button>
+    </form>
+     <a href="/perfil" title="Mi perfil" class="text-2xl">👤</a>
+    <a href="/carrito" title="Carrito" class="text-2xl">🛒</a>
+  </div>
+</header>
+
+<!-- Contenido principal -->
+<div class="max-w-5xl mx-auto mt-10 p-6 bg-white rounded shadow">
+  <h2 class="text-2xl font-bold mb-4 text-center">Mis productos vendidos</h2>
+  
+  <p class="mb-6 text-center text-gray-600">Usuario: usuario || correoejemplo.com</p>
+  
+<!-- Selector de ordenamiento -->
+  <div class="mb-4 flex justify-end">
+    <form method="get" action="/ver_productos_vendidos">
+      <label for="orden" class="mr-2 text-gray-700">Ordenar por:</label>
+      <select name="orden" id="orden" class="border rounded px-2 py-1">
+        <option value="nombre">Nombre</option>
+        
+        <option value="fecha">Fecha</option>
+        
+        <option value="precio">Precio</option>
+        
+        <option value="cantidad">Cantidad</option>
+      </select>
+      
+      <button
+        type="submit"
+        class="ml-2 bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+      >
+        Aplicar
+      </button>
+    </form>
+  </div>
+  
+<!-- Tabla de productos vendidos -->
+  <table class="w-full border mt-4 text-left">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="p-2 border">Imagen</th>
+        
+        <th class="p-2 border">Nombre</th>
+        
+        <th class="p-2 border">Precio unitario</th>
+        
+        <th class="p-2 border">Cantidad</th>
+        
+        <th class="p-2 border">Precio total</th>
+        
+        <th class="p-2 border">Fecha</th>
+        
+        <th class="p-2 border">Comprador</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <%= for item <- @productos_vendidos do %>
+        <tr class="hover:bg-gray-50">
+          <td class="p-2 border">
+            <img src={item.imagen_url} alt="imagen del producto" class="h-16 w-16 object-contain" />
+          </td>
+          
+          <td class="p-2 border">{item.nombre}</td>
+          
+          <td class="p-2 border">S/. {item.precio}</td>
+          
+          <td class="p-2 border">{item.cantidad}</td>
+          
+          <td class="p-2 border">S/. {Decimal.mult(Decimal.new(item.cantidad), item.precio)}</td>
+          
+          <td class="p-2 border">{Calendar.strftime(item.fecha, "%d-%m-%Y")}</td>
+          
+          <td class="p-2 border">{item.comprador}</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+<!-- Si no hay productos -->
+  <%= if Enum.empty?(@productos_vendidos) do %>
+    <p class="mt-6 text-center text-gray-500">No has vendido productos aún.</p>
+  <% end %>
+  
+<!-- Botón volver -->
+  <div class="flex justify-center mt-8">
+    <a href="/perfil" class="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700">
+      ← Volver a perfil
+    </a>
+  </div>
+</div>

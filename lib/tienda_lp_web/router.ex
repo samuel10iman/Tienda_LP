@@ -35,6 +35,9 @@ defmodule TiendaLpWeb.Router do
     get "/pasarela_pago", PasarelaPagoController, :mostrar
     post "/confirmar_pago", PasarelaPagoController, :confirmar_pago
 
+    get "/ver_pedidos", PageController, :ver_pedidos
+
+    get "/ver_productos_vendidos", PageController, :ver_productos_vendidos
   end
 
   # Other scopes may use custom stacks.
