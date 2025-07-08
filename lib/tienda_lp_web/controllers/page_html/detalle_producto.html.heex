@@ -1,0 +1,110 @@
+<header class="flex items-center justify-between p-4 border-b shadow-sm">
+  <!-- Logo que lleva al home -->
+  <a href={~p"/"} class="flex items-center space-x-2">
+    <img src="/images/logo.png" alt="Logo" class="h-10" />
+  </a>
+  
+<!-- Menú -->
+  <nav class="space-x-6 text-sm md:text-base font-bold text-black">
+    <a href="#">CALZADO</a> <a href="#">MUJER</a> <a href="#">HOMBRE</a> <a href="#">NIÑOS</a>
+    <a href="#">DEPORTE</a> <span class="text-red-600">HASTA 50% OFF</span>
+  </nav>
+  
+<!-- Buscador y botones -->
+  <div class="flex items-center gap-6">
+    <form action="/" method="get" class="flex">
+      <input type="text" name="q" placeholder="Buscar..." class="rounded-l border px-2 py-1" />
+      <button type="submit" class="bg-zinc-100 px-3 rounded-r">🔍</button>
+    </form>
+     <a href="/perfil" title="Mi perfil" class="text-2xl">👤</a>
+    <a href="/carrito" title="Carrito" class="text-2xl">🛒</a>
+  </div>
+</header>
+
+<%= if Phoenix.Controller.get_flash(@conn, :error) do %>
+  <div
+    class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6"
+    role="alert"
+  >
+    <strong class="font-bold">¡Error!</strong>
+    <span class="block sm:inline">{Phoenix.Controller.get_flash(@conn, :error)}</span>
+  </div>
+<% end %>
+
+<%= if Phoenix.Controller.get_flash(@conn, :info) do %>
+  <div
+    class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6"
+    role="alert"
+  >
+    <strong class="font-bold">¡Éxito!</strong>
+    <span class="block sm:inline">{Phoenix.Controller.get_flash(@conn, :info)}</span>
+  </div>
+<% end %>
+
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <!-- Imagen del producto -->
+    <div class="flex justify-center">
+      <img
+        src={@producto.imagen || "/images/placeholder.jpg"}
+        alt={@producto.nombre}
+        class="rounded h-[700px] object-cover"
+      />
+    </div>
+    
+<!-- Detalle del producto -->
+    <div>
+      <h1 class="text-9xl font-bold mb-2">{@producto.nombre}</h1>
+      
+      <p class="text-6xl text-brand font-semibold mb-2">S/ {@producto.precio}</p>
+      
+      <p class="text-2xl text-gray-600 mb-4">Stock disponible: {@producto.stock}</p>
+      
+<!-- Selector de cantidad -->
+      <form method="post" action={~p"/carrito/agregar"}>
+        <input type="hidden" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()} />
+        <input type="hidden" name="producto_id" value={@producto.id} />
+        <input type="hidden" name="carrito_id" value={@carrito_id} />
+        <input type="hidden" name="correo" value={@correo} />
+        <label for="cantidad" class="block text-8sm font-medium mb-1">Cantidad:</label>
+        <select name="cantidad" id="cantidad" class="border rounded px-3 py-2 mb-4 w-32">
+          <%= for n <- 1..min(@producto.stock, 10) do %>
+            <option value={n}>{n}</option>
+          <% end %>
+        </select>
+        
+        <button
+          type="submit"
+          class="bg-brand hover:bg-orange-700 text-white font-semibold px-6 py-2 rounded transition"
+        >
+          Agregar al carrito
+        </button>
+      </form>
+    </div>
+  </div>
+  
+<!-- Productos similares -->
+  <div class="mt-12">
+    <h2 class="text-2xl font-bold mb-4">Productos similares</h2>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <%= for producto <- @similares do %>
+        <div class="bg-white rounded-lg shadow p-4 flex flex-col items-center">
+          <img
+            src={"/images/#{producto.imagen}"}
+            alt={producto.nombre}
+            class="rounded mb-2 h-40 object-cover"
+          />
+          <h3 class="font-semibold text-lg mb-1">{producto.nombre}</h3>
+           <span class="font-bold text-brand mb-2">S/ {producto.precio}</span>
+          <a
+            href={~p"/productos/show/#{producto.id}"}
+            class="bg-brand text-white px-4 py-1 rounded hover:bg-orange-700 transition mt-auto"
+          >
+            Ver producto
+          </a>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

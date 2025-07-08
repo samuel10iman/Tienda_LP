@@ -8,76 +8,114 @@
     <a href="/" class="font-bold tracking-widest hover:text-brand">DEPORTE</a>
     <a href="/" class="font-bold tracking-widest text-red-600">HASTA 50% OFF</a>
   </div>
+  
   <div class="flex items-center gap-6">
     <form action="/" method="get" class="flex">
       <input type="text" name="q" placeholder="Buscar..." class="rounded-l border px-2 py-1" />
       <button type="submit" class="bg-zinc-100 px-3 rounded-r">🔍</button>
     </form>
-    <a href="/perfil" title="Mi perfil" class="text-2xl">👤</a>
+     <a href="/perfil" title="Mi perfil" class="text-2xl">👤</a>
     <a href="/carrito" title="Carrito" class="text-2xl">🛒</a>
   </div>
 </nav>
-
-<.flash_group flash={@flash} />
-
+ <.flash_group flash={@flash} />
 <div class="max-w-7xl mx-auto px-4">
   <!-- Todo tu contenido principal aquí -->
   <!-- Barra de búsqueda -->
-
+  
 
   <!-- Barra de filtros horizontal -->
   <div class="flex flex-wrap gap-4 items-center mb-8">
     <form hx-get="/?filtro=categoria" hx-target="#productos-lista" class="flex items-center gap-2">
       <label class="font-medium">Categoría</label>
-      <select name="categoria" class="rounded border-zinc-300" hx-trigger="change" hx-get="/?filtro=categoria" hx-target="#productos-lista">
+      <select
+        name="categoria"
+        class="rounded border-zinc-300"
+        hx-trigger="change"
+        hx-get="/?filtro=categoria"
+        hx-target="#productos-lista"
+      >
         <option value="">Todas</option>
+        
         <option value="electronica">Electrónica</option>
+        
         <option value="ropa">Ropa</option>
       </select>
     </form>
+    
     <form hx-get="/?filtro=precio" hx-target="#productos-lista" class="flex items-center gap-2">
       <label class="font-medium">Precio máx.</label>
-      <input type="number" name="precio_max" class="rounded border-zinc-300 w-24" placeholder="Ej: 1000" hx-trigger="change" hx-get="/?filtro=precio" hx-target="#productos-lista"/>
+      <input
+        type="number"
+        name="precio_max"
+        class="rounded border-zinc-300 w-24"
+        placeholder="Ej: 1000"
+        hx-trigger="change"
+        hx-get="/?filtro=precio"
+        hx-target="#productos-lista"
+      />
     </form>
   </div>
-
-  <!-- Nueva sección de productos -->
+  
+<!-- Nueva sección de productos -->
   <div class="relative bg-gradient-to-br from-green-200 to-zinc-900 min-h-[400px] flex flex-col justify-center items-start p-12 rounded-lg shadow-lg mb-8">
-    <h1 class="text-5xl font-black text-white mb-4">HASTA <span class="text-brand">50% OFF</span></h1>
+    <h1 class="text-5xl font-black text-white mb-4">
+      HASTA <span class="text-brand">50% OFF</span>
+    </h1>
+    
     <div class="bg-white/80 rounded p-4 mb-4">
       <h2 class="text-xl font-bold mb-2">OFERTAS CYBERNÉTICAS</h2>
+      
       <p class="mb-1">Aprovecha hasta 50% OFF en el catálogo seleccionado.</p>
+      
       <p class="mb-4">Envío gratis para miembros.</p>
-      <a href="/productos" class="inline-block bg-brand text-white px-6 py-2 rounded font-semibold shadow hover:bg-orange-700 transition">COMPRAR AHORA →</a>
+      
+      <a
+        href="/productos"
+        class="inline-block bg-brand text-white px-6 py-2 rounded font-semibold shadow hover:bg-orange-700 transition"
+      >
+        COMPRAR AHORA →
+      </a>
     </div>
+    
     <div class="flex gap-6 mt-4">
       <div class="flex items-center gap-2">
         <img src="/images/cyberdays.png" alt="CyberDays" class="h-10" />
         <span class="text-xs text-white">CyberDays 2025</span>
       </div>
+      
       <div class="flex items-center gap-2">
-        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12h18M3 12l4-4m-4 4l4 4" /></svg>
-        <span class="text-xs text-white">ENVÍO GRATIS</span>
+        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M3 12h18M3 12l4-4m-4 4l4 4" />
+        </svg> <span class="text-xs text-white">ENVÍO GRATIS</span>
       </div>
     </div>
   </div>
-
-  <!-- Productos destacados -->
+  
+<!-- Productos destacados -->
   <h2 class="text-2xl font-bold mb-6">Productos destacados</h2>
+  
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <%= if Enum.empty?(@productos) do %>
       <p>No se encontraron productos.</p>
     <% else %>
       <%= for producto <- @productos do %>
         <div class="bg-white rounded-lg shadow p-4 flex flex-col items-center">
-          <img src={producto.imagen || "/images/placeholder.jpg"} alt={producto.nombre} class="rounded mb-2 h-40 object-cover" />
-          <h3 class="font-semibold text-lg mb-1"><%= producto.nombre %></h3>
-          <span class="font-bold text-brand mb-2">S/ <%= producto.precio %></span>
-          <a href={~p"/productos/show/#{producto.id}"} class="bg-brand text-white px-4 py-1 rounded hover:bg-orange-700 transition mt-auto">Ver producto</a>
+          <img
+            src={producto.imagen || "/images/placeholder.jpg"}
+            alt={producto.nombre}
+            class="rounded mb-2 h-40 object-cover"
+          />
+          <h3 class="font-semibold text-lg mb-1">{producto.nombre}</h3>
+           <span class="font-bold text-brand mb-2">S/ {producto.precio}</span>
+          <a
+            href={~p"/productos/show/#{producto.id}"}
+            class="bg-brand text-white px-4 py-1 rounded hover:bg-orange-700 transition mt-auto"
+          >
+            Ver producto
+          </a>
         </div>
       <% end %>
     <% end %>
   </div>
 </div>
-
-

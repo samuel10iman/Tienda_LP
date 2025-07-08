@@ -71,6 +71,32 @@ defmodule TiendaLpWeb.PageController do
 
     usuario_form = to_form(usuario)
 
-    render(conn, :perfil, layout: false, usuario: usuario, usuario_form: usuario_form, pedidos: pedidos, productos: productos)
+    render(conn, :perfil,
+      layout: false,
+      usuario: usuario,
+      usuario_form: usuario_form,
+      pedidos: pedidos,
+      productos: productos
+    )
+  end
+
+  def detalle_producto(conn, %{"id" => id}) do
+    producto = TiendaLp.Productos.get_producto!(id)
+
+    similares =
+      TiendaLp.Productos.listar_productos_similares(producto.categoria_id, producto.id)
+
+    correo = "ginodiaz7923@gmail.com"
+    carrito_id = get_session(conn, :carrito_id) || Ecto.UUID.generate()
+
+    conn
+    |> put_session(:carrito_id, carrito_id)
+    |> render(:detalle_producto,
+      layout: false,
+      producto: producto,
+      similares: similares,
+      correo: correo,
+      carrito_id: carrito_id
+    )
   end
 end

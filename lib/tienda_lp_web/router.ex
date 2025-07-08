@@ -18,17 +18,23 @@ defmodule TiendaLpWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-    live "/carrito", CarritoLive
+    # live "/carrito", CarritoLive
 
     get "/productos/new", PageController, :new_producto
     post "/productos", PageController, :create_producto
-    get "/productos/show/:id", PageController, :show_producto
+    get "/productos/show/:id", PageController, :detalle_producto
     get "/productos/edit/:id", PageController, :edit_producto
     put "/productos/:id", PageController, :update_producto
     delete "/productos/:id", PageController, :delete_producto
 
     get "/perfil", PageController, :perfil
     put "/perfil/editar", PageController, :editar_perfil
+    post "/carrito/agregar", CarritoController, :agregar
+    get "/carrito", CarritoController, :mostrar
+
+    get "/pasarela_pago", PasarelaPagoController, :mostrar
+    post "/confirmar_pago", PasarelaPagoController, :confirmar_pago
+
   end
 
   # Other scopes may use custom stacks.

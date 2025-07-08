@@ -1,0 +1,81 @@
+<nav class="flex items-center justify-between px-8 py-4 bg-white shadow">
+  <div class="flex items-center gap-8">
+    <img src="/images/logo.png" alt="Logo" class="h-8" />
+    <a href="/" class="font-bold tracking-widest hover:text-brand">CALZADO</a>
+    <a href="/" class="font-bold tracking-widest hover:text-brand">MUJER</a>
+    <a href="/" class="font-bold tracking-widest hover:text-brand">HOMBRE</a>
+    <a href="/" class="font-bold tracking-widest hover:text-brand">NIÑOS</a>
+    <a href="/" class="font-bold tracking-widest hover:text-brand">DEPORTE</a>
+    <a href="/" class="font-bold tracking-widest text-red-600">HASTA 50% OFF</a>
+  </div>
+  
+  <div class="flex items-center gap-6">
+    <form action="/" method="get" class="flex">
+      <input type="text" name="q" placeholder="Buscar..." class="rounded-l border px-2 py-1" />
+      <button type="submit" class="bg-zinc-100 px-3 rounded-r">🔍</button>
+    </form>
+     <a href="/perfil" title="Mi perfil" class="text-2xl">👤</a>
+    <a href="/carrito" title="Carrito" class="text-2xl">🛒</a>
+  </div>
+</nav>
+ <.flash_group flash={@flash} />
+<div class="max-w-5xl mx-auto py-12 px-4">
+  <h1 class="text-3xl font-bold mb-8">🛒 Mi Carrito</h1>
+  
+  <%= if Enum.empty?(@items) do %>
+    <p class="text-center text-gray-500">Tu carrito está vacío.</p>
+  <% else %>
+    <table class="w-full border-collapse">
+      <thead>
+        <tr class="border-b text-left font-semibold">
+          <th class="p-4">Imagen</th>
+          
+          <th class="p-4">Producto</th>
+          
+          <th class="p-4">Cantidad</th>
+          
+          <th class="p-4">Precio Unitario</th>
+          
+          <th class="p-4">Subtotal</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <%= for item <- @items do %>
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-4">
+              <img
+                src={"/images/#{item.producto.imagen}"}
+                alt="Producto"
+                class="h-16 w-16 rounded object-cover"
+              />
+            </td>
+            
+            <td class="p-4 font-medium">{item.producto.nombre}</td>
+            
+            <td class="p-4">{item.cantidad}</td>
+            
+            <td class="p-4">S/ {item.producto.precio}</td>
+            
+            <td class="p-4">S/ {item.producto.precio * item.cantidad}</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+    <div class="flex justify-end mt-6 text-xl font-bold">
+      Total: S/ {Enum.reduce(@items, 0, fn item, acc ->
+        acc + item.producto.precio * item.cantidad
+      end)}
+    </div>
+    
+    <div class="flex justify-end mt-4">
+      <a
+        href="/pasarela_pago"
+        class="bg-brand hover:bg-orange-700 text-white font-semibold px-6 py-2 rounded transition"
+      >
+        Realizar compra
+      </a>
+    </div>
+  <% end %>
+</div>

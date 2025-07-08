@@ -1,0 +1,94 @@
+<!-- pasarela_pago.html.heex -->
+<section class="max-w-4xl mx-auto px-4 py-12">
+  <h2 class="text-2xl font-bold mb-6">Pasarela de Pago</h2>
+  
+  <form id="form-pago" action="/confirmar_pago" method="post" class="space-y-6">
+    <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
+
+    <div>
+      <label class="block font-semibold">Nombre del titular</label>
+      <input
+        type="text"
+        name="nombre"
+        required
+        pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
+        title="Solo letras"
+        class="w-full border rounded px-3 py-2"
+      />
+    </div>
+    
+    <div>
+      <label class="block font-semibold">Apellido del titular</label>
+      <input
+        type="text"
+        name="apellido"
+        required
+        pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
+        title="Solo letras"
+        class="w-full border rounded px-3 py-2"
+      />
+    </div>
+    
+    <div>
+      <label class="block font-semibold">Número de tarjeta</label>
+      <input
+        type="text"
+        name="tarjeta"
+        required
+        maxlength="16"
+        minlength="16"
+        pattern="\d{16}"
+        title="Debe contener 16 dígitos"
+        class="w-full border rounded px-3 py-2"
+      />
+    </div>
+    
+    <div>
+      <label class="block font-semibold">CVV</label>
+      <input
+        type="text"
+        name="cvv"
+        required
+        pattern="\d{3,4}"
+        maxlength="4"
+        title="Debe contener 3 o 4 dígitos"
+        class="w-32 border rounded px-3 py-2"
+      />
+    </div>
+    
+    <div>
+      <label class="block font-semibold">Fecha de vencimiento</label>
+      <input
+        type="month"
+        name="fecha_vencimiento"
+        required
+        class="border rounded px-3 py-2"
+        min="{{ Date.utc_today() |> Date.to_iso8601() |> String.slice(0..6) }}"
+      />
+    </div>
+    
+    <div class="flex gap-4">
+      <button type="submit" class="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600">
+        Confirmar Pago
+      </button>
+      
+      <a href="/carrito" class="bg-gray-300 text-black px-6 py-2 rounded hover:bg-gray-400">
+        Cancelar
+      </a>
+    </div>
+  </form>
+</section>
+
+<script>
+  const form = document.getElementById("form-pago");
+  form.addEventListener("submit", function (e) {
+    const inputs = form.querySelectorAll("input");
+    for (let input of inputs) {
+      if (!input.checkValidity()) {
+        alert("Por favor completa correctamente todos los campos.");
+        e.preventDefault();
+        return;
+      }
+    }
+  });
+</script>
